@@ -65,7 +65,9 @@ router.get('/products', async (req, res) => {
     const { limit } = req.query;
     const products = await getDataFromFile();
 
-    console.log(limit);
+    if (limit && (isNaN(parseInt(limit))  || parseInt(limit) < 1)) {
+        return res.status(400).json({ error: 'Invalid limit' });
+    }
 
     if (limit && limit > 0 && limit < products.length) {
         return res.status(200).json(products.slice(0, limit));
