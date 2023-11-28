@@ -1,0 +1,33 @@
+<section style="display: flex; justify-content: space-between;">
+    <h1>Productos</h1>
+    <button id="nav-cart" style="width: 12%;">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart" width="48" height="48" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17h-11v-14h-2" /><path d="M6 5l14 1l-1 7h-13" /></svg>
+    </button>
+</section>
+
+<section>
+    {{#each payload}}
+    <article>
+        <div style="display: flex; justify-content: space-between; align-items: center; ">
+            <h3>[ {{ this.category }} ] | {{ this.title }} - ${{ this.price }}</h3>
+            <div style="display: flex; gap:1em; width: 30%;" data-id="{{ this._id }}">
+                <input type="number" name="quantity" id="quantity" min="1" value="1" style="width: 38%;" required>
+                <button class="btn-cart" type="button" id="btn-add" style="font-size: 0.85rem;">Agregar al carrito</button>
+            </div>
+        </div>
+        <p>{{ this.description }}</p>
+        <div style="display: flex; justify-content: space-between;">
+            <p style="font-size: 0.85rem;">Status: {{ this.status }}</p>
+            <p style="font-size: 0.85rem;">Stock: {{ this.stock }}</p>
+        </div>
+    </article>
+    {{/each}}
+</section>
+
+<section style="display: flex; justify-content: center; gap: 1em">
+    <a href="{{ prevLink }}" role="button" {{#unless hasPrevPage}}disabled{{/unless}}>Página anterior</a>
+    <h3>{{ page }}</h3>
+    <a href="{{ nextLink }}" role="button" {{#unless hasNextPage}}disabled{{/unless}}>Página siguiente</a>
+</section>
+
+<script src="js/products.js"></script>

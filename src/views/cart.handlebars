@@ -1,0 +1,24 @@
+<h1>Mi carrito 🛒</h1>
+
+<section>
+    <article>
+        <table>
+            <tr>
+                <th>Producto</th>
+                <th>Descripción</th>
+                <th>Categoria</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+            </tr>
+            {{#each products}}
+                <tr>
+                    <th> {{ this.product.title }} </th>
+                    <th> {{ this.product.description }} </th>
+                    <th> {{ this.product.category }} </th>
+                    <th> {{ this.product.price }} </th>
+                    <th> {{ this.quantity }} </th>
+                </tr>
+            {{/each}}
+        </table>
+    </article>
+</section>
