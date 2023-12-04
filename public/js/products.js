@@ -1,5 +1,17 @@
 const cart_id = localStorage.getItem('cart_id');
 
+const closeBtn = document.getElementById('close-btn');
+const welcomeModal = document.querySelector('.welcome-modal');
+
+closeBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    welcomeModal.open = false;
+});
+
+document.getElementById('nav-profile').addEventListener('click', () => {
+    window.location.href = `/profile`;
+});
+
 document.getElementById('nav-cart').addEventListener('click', () => {
     if (cart_id) {
         window.location.href = `/carts/${cart_id}`;
