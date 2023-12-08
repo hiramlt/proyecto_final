@@ -3,9 +3,11 @@ import morgan from 'morgan';
 import path from 'path';
 import handlebars from 'express-handlebars'
 import sessions from 'express-session';
+import passport from 'passport';
 import MongoStore from 'connect-mongo';
 import __dirname from './utils.js';
 import { URI } from './db/mongodb.js';
+import { initPassport } from './config/passport.config.js';
 
 import viewsRouter from './routers/views/index.router.js';
 import productsRouter from './routers/api/products.router.js';
@@ -35,6 +37,10 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.engine('handlebars', handlebars.engine());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
+
+initPassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', viewsRouter)
 app.use('/api', productsRouter, cartsRouter, sessionsRouter);

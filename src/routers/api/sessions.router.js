@@ -1,33 +1,20 @@
 import { Router } from 'express';
-import UserManager from '../../dao/Users.manager.js';
+import passport from 'passport';
 
 const router = Router();
 
-router.post('/sessions/login', async (req, res) => {
-    const { email, password } = req.body;
-    if (!email || !password ) {
-        return res.render('error', { title: 'Error', errorMsg: 'Faltan campos requeridos' });
-    }
-
-    const user = await UserManager.getByEmail(email);
-    if (user && user.password === password) {
-        const { first_name, last_name, age, rol } = user;
-        req.session.user = { first_name, last_name, email, age, rol };
-        return res.redirect('/products');
-    } 
-
-    res.render('error', { title: 'Error', errorMsg: 'Correo o contraseña invalidos' });
+router.post('/sessions/login', passport.authenticate('login', { failureRedirect: '/login' }), async (req, res) => {
+    res.redirect('/products');
 });
 
-router.post('/sessions/register', async (req, res) => {
-    const { first_name, last_name, email, password, age } = req.body;
-
-    if (!first_name || !last_name || !email || !password ) {
-        return res.render('error', { title: 'Error', errorMsg: 'Faltan campos requeridos' });
-    }
-
-    const user = await UserManager.create({ first_name, last_name, email, password, age});
+router.post('/sessions/register', passport.authenticate('register', { failureRedirect: '/register' }), async (req, res) => {
     res.redirect('/login');
+});
+
+router.get('/sessions/github', passport.authenticate('github', { scope: ['user:email'] }));
+
+router.get('/sessions/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+    res.redirect('/products');
 });
 
 router.get('/sessions/logout', async (req, res) => {
